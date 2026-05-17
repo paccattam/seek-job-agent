@@ -78,18 +78,17 @@ def evaluate_job_with_ai(job_desc):
         "matched_skills": ["Senior Business Analyst", "Agile", "Requirements Gathering"]
     }}
     """
-    try:
-        response = ai_client.models.generate_content(
-            model='gemini-2.5-flash',
-            contents=prompt,
-        )
-        text = response.text.strip().replace("```json", "").replace("
-```", "")
-        import json
-        return json.loads(text)
-    except Exception as e:
-        print(f"[AI AGENT] Evaluation failed for this role: {e}")
-        return {"matches": False, "matched_skills": []}
+try:
+    response = ai_client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+    )
+    text = response.text.strip().replace("```json", "").replace("```", "")
+    import json
+    return json.loads(text)
+except Exception as e:
+    print(f"[AI AGENT] Evaluation failed for this role: {e}")
+    return {"matches": False, "matched_skills": []}
 
 def send_email(matched_jobs):
     msg = MIMEMultipart('alternative')
