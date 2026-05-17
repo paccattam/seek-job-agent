@@ -82,8 +82,8 @@ def evaluate_job_with_ai(job_desc):
             model='gemini-2.5-flash',
             contents=prompt,
         )
-        text = response.text.strip().replace("```json", "").replace("
-```", "")
+       text = response.text.strip().replace("
+```json", "").replace("```", "")
         import json
         return json.loads(text)
     except Exception as e:
