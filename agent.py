@@ -66,7 +66,7 @@ async def search_seek():
 def evaluate_job_with_ai(job_desc):
     """Uses LLM to evaluate if the JD matches a Business Analyst or Senior BA profile."""
     prompt = f"""
-    Analyze the following job description. Determine if this role explicitly matches a Business Analyst or Senior Business Analyst position, and identify if it contains any of these attributes or related skills: {', '.join(REQUIRED_SKILLS)}.
+    Analyze the following job description. Determine if this role explicitly matches a Business Analyst or Senior Business Analyst position, and identify if it contains any of these attributes or [...]
     
     Job Description:
     {job_desc}
@@ -82,14 +82,12 @@ def evaluate_job_with_ai(job_desc):
             model='gemini-2.5-flash',
             contents=prompt,
         )
-       text = response.text.strip().replace("
-```json", "").replace("```", "")
+        text = response.text.strip().replace("```json", "").replace("```", "")
         import json
         return json.loads(text)
     except Exception as e:
         print(f"AI evaluation failed for this role: {e}")
         return {"matches": False, "matched_skills": []}
-
 def send_email(matched_jobs):
     if not matched_jobs:
         print("No matching Business Analyst jobs found today.")
